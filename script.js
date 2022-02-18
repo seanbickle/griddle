@@ -17,7 +17,8 @@ class WordHandler{
 
     submit_word(){
         // Triggered by user entering selection
-        return this._in_word_list(this.word())
+        if(!this._in_word_list(this.word())) throw new NotInWordListError()
+        return true
     }
     
     word(){
@@ -47,7 +48,7 @@ class WordHandler{
         return Math.floor(Math.random() * this.chars.length)
     }
 
-    _in_word_list(word){
+    _is_word(word){
         // Checks word in word list
         return this.wordlist.includes(word)
     }
