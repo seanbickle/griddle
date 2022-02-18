@@ -42,6 +42,8 @@ class WordHandler{
     GRID_WIDTH = 10
     grid = []
     user_selection = []
+    user_score = 0
+    score_el = document.getElementById("score")
 
     constructor(){
         this._init_grid()
@@ -57,9 +59,11 @@ class WordHandler{
         var word = this.word()
         if(WORDLIST.includes(word)) {
             for(var i = 0; i < this.user_selection.length; i++){
+                this.user_score += this.user_selection[i].score
                 this.user_selection[i].deselect()
                 this.user_selection[i].randomise()
             }
+            this.score_el.innerText = this.user_score
             this.user_selection = []
         } else {
             this.reset_selection()
