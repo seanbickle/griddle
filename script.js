@@ -55,18 +55,27 @@ class WordHandler{
         this._toggle_select(index)
     }
 
-    deselect_all(){
+    submit_word(){
+        // Process user selection on submission
+        var word = this.word()
+        if(WORDLIST.includes(word)) {
+            for(var i = 0; i < this.user_selection.length; i++){
+                this.grid[this.user_selection[i]].deselect()
+                this.grid[this.user_selection[i]].randomise()
+            }
+            this.user_selection = []
+        } else {
+            this.reset_selection()
+            throw new NotInWordListError(word)
+        }
+    }
+
+    reset_selection(){
         // Remove all from selection and reset tiles
         for(var i = 0; i < this.user_selection.length; i++){
             this.grid[this.user_selection[i]].deselect()
         }
         this.user_selection = []
-    }
-
-    submit_word(){
-        // Triggered by user entering selection
-        if(!(this.word in WORDLIST)) throw new NotInWordListError()
-        else this.deselect_all()
     }
 
     word(){
@@ -121,5 +130,5 @@ function submit(){
 }
 
 function reset(){
-    wh.deselect_all()
+    wh.reset_selection()
 }
