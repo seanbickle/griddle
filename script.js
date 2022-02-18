@@ -57,8 +57,8 @@ class WordHandler{
         var word = this.word()
         if(WORDLIST.includes(word)) {
             for(var i = 0; i < this.user_selection.length; i++){
-                this.grid[this.user_selection[i]].deselect()
-                this.grid[this.user_selection[i]].randomise()
+                this.user_selection[i].deselect()
+                this.user_selection[i].randomise()
             }
             this.user_selection = []
         } else {
@@ -70,7 +70,7 @@ class WordHandler{
     reset_selection(){
         // Remove all from selection and reset tiles
         for(var i = 0; i < this.user_selection.length; i++){
-            this.grid[this.user_selection[i]].deselect()
+            this.user_selection[i].deselect()
         }
         this.user_selection = []
     }
@@ -79,7 +79,7 @@ class WordHandler{
         // Convert user selection to word
         var word = ""
         for(var i = 0; i < this.user_selection.length; i++){
-            word += this.grid[this.user_selection[i]].char
+            word += this.user_selection[i].char
         }
         return word.toLowerCase()
     }
@@ -93,26 +93,27 @@ class WordHandler{
     }
 
     _toggle_select(index){
-        // If index already selected, remove. Else, add.
-        if(this._already_selected(index)) this._remove_selection(index)
-        else this._add_selection(index)
+        // If tile already selected, remove. Else, add.
+        var tile = this.grid[index]
+        if(this._already_selected(tile)) this._remove_selection(tile)
+        else this._add_selection(tile)
     }
 
-    _already_selected(index){
+    _already_selected(tile){
         // If grid index is already in the user's selection
-        return this.user_selection.includes(index)
+        return this.user_selection.includes(tile)
     }
 
-    _add_selection(index){
+    _add_selection(tile){
         // Add grid index to user selection
-        this.grid[index].select()
-        this.user_selection.push(index)
+        tile.select()
+        this.user_selection.push(tile)
     }
 
-    _remove_selection(index){
+    _remove_selection(tile){
         // Remove grid index from user selection
-        this.user_selection.splice(this.user_selection.indexOf(index), 1)
-        this.grid[index].deselect()
+        tile.deselect()
+        this.user_selection.splice(this.user_selection.indexOf(tile), 1)
     }
 }
 
