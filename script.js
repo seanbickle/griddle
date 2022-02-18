@@ -1,8 +1,48 @@
+CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+TILE_DEFAULT_COLOUR = "rgb(240,240,240)"
+TILE_SELECT_COLOUR = "rgb(241, 214, 192)"
+
+class Tile{
+
+    constructor(index){
+        this.index = index
+        this.el = document.getElementById("tile_" + index)
+        this.char = ""
+
+        this.randomise()
+    }
+
+    set_char(char){
+        this.el.innerText = char
+        this.char = char
+    }
+
+    select(){
+        this.el.style.backgroundColor = TILE_SELECT_COLOUR
+    }
+
+    deselect(){
+        this.el.style.backgroundColor = TILE_DEFAULT_COLOUR
+    }
+
+    randomise(){
+        this.set_char(this._get_rand_char())
+    }
+
+    _get_rand_char(){
+        // Random char A to Z
+        return CHARS.charAt(this._get_rand_char_idx())
+    }
+
+    _get_rand_char_idx(){
+        // Random int between 0 and 25
+        return Math.floor(Math.random() * CHARS.length)
+    }
+}
+
 class WordHandler{
     GRID_HEIGHT = 10
     GRID_WIDTH = 10
-    wordlist = wordlist
-    chars = "abcdefghijklmnopqrstuvwxyz"
     grid = []
     user_selection = []
 
@@ -15,42 +55,35 @@ class WordHandler{
         this._toggle_select(index)
     }
 
+    deselect_all(){
+        // Remove all from selection and reset tiles
+        for(var i = 0; i < this.user_selection.length; i++){
+            this.grid[this.user_selection[i]].deselect()
+        }
+        this.user_selection = []
+    }
+
     submit_word(){
         // Triggered by user entering selection
-        if(!this._in_word_list(this.word())) throw new NotInWordListError()
-        return true
+        if(!(this.word in WORDLIST)) throw new NotInWordListError()
+        else this.deselect_all()
     }
-    
+
     word(){
         // Convert user selection to word
         var word = ""
         for(var i = 0; i < this.user_selection.length; i++){
-            word += this.grid[this.user_selection[i]]
+            word += this.grid[this.user_selection[i]].char
         }
-        return word
+        return word.toLowerCase()
     }
 
     // HELPERS
     _init_grid(){
         // Pushes GRID_HEIGHT * GRID_WIDTH letters to grid
-        for(var i = 0; i < this.GRID_WIDTH * this.GRID_HEIGHT; i++){
-            this.grid.push(this._get_rand_char())
+        for(var i = 0; i < this.GRID_HEIGHT * this.GRID_WIDTH; i++){
+            this.grid.push(new Tile(i))
         }
-    }
-
-    _get_rand_char(){
-        // Random char A to Z
-        return this.chars.charAt(this._get_rand_char_idx())
-    }
-
-    _get_rand_char_idx(){
-        // Random int between 0 and 25
-        return Math.floor(Math.random() * this.chars.length)
-    }
-
-    _is_word(word){
-        // Checks word in word list
-        return this.wordlist.includes(word)
     }
 
     _toggle_select(index){
@@ -66,13 +99,27 @@ class WordHandler{
 
     _add_selection(index){
         // Add grid index to user selection
+        this.grid[index].select()
         this.user_selection.push(index)
     }
 
     _remove_selection(index){
         // Remove grid index from user selection
-        this.user_selection.splice(this.user_selection.indexOf(index))
+        this.user_selection.splice(this.user_selection.indexOf(index), 1)
+        this.grid[index].deselect()
     }
 }
 
 var wh = new WordHandler()
+
+function select(i){
+    wh.select(i)
+}
+
+function submit(){
+    wh.submit_word()
+}
+
+function reset(){
+    wh.deselect_all()
+}
