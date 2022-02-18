@@ -1,8 +1,3 @@
-CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-TILE_DEFAULT_COLOUR = "rgb(250,250,250)"
-TILE_SELECT_COLOUR = "rgb(231, 204, 182)"
-TILE_SUCCESS_COLOUR = "green"
-
 class Tile{
 
     constructor(index){
@@ -14,7 +9,8 @@ class Tile{
     }
 
     set_char(char){
-        this.el.innerText = char
+        this.score = LETTER_SCORES[char]
+        this.el.innerHTML = char + " <sub>" + this.score + "</sub>"
         this.char = char
     }
 
