@@ -1,5 +1,4 @@
 class Tile{
-
     constructor(index){
         this.index = index
         this.coords = [index % GRID_WIDTH, Math.floor(index / GRID_WIDTH)]
@@ -31,7 +30,7 @@ class Tile{
 
     is_congruous(tile){
         // Whether this tile is congruous to another tile
-        if(tile === undefined) return true
+        if(!tile) return true
         return (
             Math.abs(this.coords[0] - tile.coords[0]) <= 1 &&
             Math.abs(this.coords[1] - tile.coords[1]) <= 1
@@ -49,9 +48,69 @@ class Tile{
     }
 }
 
+class Selection{
+    constructor(){
+        this.tiles = []
+    }
+
+    add_tile(tile){
+        // Add a tile to the selection array
+        tile.select()
+        this.tiles.push(tile)
+    }
+
+    remove_tile(tile){
+        // Remove a tile from the selection array
+        tile.deselect()
+        this.tiles.splice(this.tiles.indexOf(tile), 1)
+    }
+
+    reset(randomise_tiles){
+        // Reset tiles and clear selection
+        for(var i = 0; i < this.tiles.length; i++){
+            this.tiles[i].deselect()
+            if(randomise_tiles) this.tiles[i].randomise()
+        }
+        this.tiles = []
+    }
+
+    includes(tile){
+        // Proxes the array includes
+        return this.tiles.includes(tile)
+    }
+    
+    first(){
+        // First tile selected
+        return this.tiles[0]
+    }
+
+    last(){
+        // Last tile selected
+        return this.tiles[this.tiles.length - 1]
+    }
+
+    word(){
+        // Build a string word from the current selection
+        var word = ""
+        for(var i = 0; i < this.tiles.length; i++){
+            word += this.tiles[i].char
+        }
+        return word.toLowerCase()
+    }
+
+    is_word(){
+        // Determines whether the user selection makes a word
+        return WORDLIST.includes(this.word())
+    }
+
+    is_middle_tile(tile){
+        return tile != this.last() && tile != this.first()
+    }
+}
+
 class WordHandler{
     grid = []
-    user_selection = []
+    selection = new Selection()
     user_score = 0
     selection_score = 0
     score_el = document.getElementById("score")
@@ -63,43 +122,24 @@ class WordHandler{
 
     // INTERFACE
     select(index){
-        this._toggle_select(index)
+        // Toggles selection
+        var tile = this.grid[index]
+        if(this.selection.includes(tile)) this._remove_selection(tile)
+        else this._add_selection(tile)
     }
 
     submit_word(){
         // Process user selection on submission
-        var word = this.word()
-        if(WORDLIST.includes(word)) {
-            for(var i = 0; i < this.user_selection.length; i++){
-                this.user_score += this.user_selection[i].score
-                this.user_selection[i].deselect()
-                this.user_selection[i].randomise()
-            }
+        if(this.selection.is_word()) {
+            this.user_score += this.selection_score
+            this.selection.reset(true)
             this.score_el.innerText = this.user_score
-            this.user_selection = []
             this._reset_selection_score()
         } else {
-            this.reset_selection()
+            var word = this.selection.word()
+            this.selection.reset(false)
             throw new NotInWordListError(word)
         }
-    }
-
-    reset_selection(){
-        // Remove all from selection and reset tiles
-        for(var i = 0; i < this.user_selection.length; i++){
-            this.user_selection[i].deselect()
-        }
-        this.user_selection = []
-        this._reset_selection_score()
-    }
-
-    word(){
-        // Convert user selection to word
-        var word = ""
-        for(var i = 0; i < this.user_selection.length; i++){
-            word += this.user_selection[i].char
-        }
-        return word.toLowerCase()
     }
 
     // HELPERS
@@ -109,27 +149,10 @@ class WordHandler{
         }
     }
 
-    _toggle_select(index){
-        // If tile already selected, remove. Else, add.
-        var tile = this.grid[index]
-        if(this._already_selected(tile)) this._remove_selection(tile)
-        else this._add_selection(tile)
-    }
-
-    _get_last_selection(){
-        return this.user_selection[this.user_selection.length - 1]
-    }
-
-    _already_selected(tile){
-        // If grid index is already in the user's selection
-        return this.user_selection.includes(tile)
-    }
-
     _add_selection(tile){
-        // Add grid index to user selection
-        if(tile.is_congruous(this._get_last_selection())){
-            tile.select()
-            this.user_selection.push(tile)
+        // Add tile to user selection
+        if(tile.is_congruous(this.selection.last())){
+            this.selection.add_tile(tile)
             this._add_selection_score(tile.score)
         } else {
             throw new IncongruousSelectionError()
@@ -137,10 +160,9 @@ class WordHandler{
     }
 
     _remove_selection(tile){
-        // Remove grid index from user selection
-        if(tile != this._get_last_selection()) return
-        tile.deselect()
-        this.user_selection.splice(this.user_selection.indexOf(tile), 1)
+        // Remove tile from user selection
+        if(this.selection.is_middle_tile(tile)) return
+        this.selection.remove_tile(tile)
         this._sub_selection_score(tile.score)
     }
 
@@ -178,5 +200,5 @@ function submit(){
 }
 
 function reset(){
-    wh.reset_selection()
+    wh.selection.reset(false)
 }
