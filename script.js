@@ -51,7 +51,9 @@ class WordHandler{
     grid = []
     user_selection = []
     user_score = 0
+    selection_score = 0
     score_el = document.getElementById("score")
+    selection_score_el = document.getElementById("selection_score")
 
     constructor(){
         this._init_grid()
@@ -73,6 +75,7 @@ class WordHandler{
             }
             this.score_el.innerText = this.user_score
             this.user_selection = []
+            this._reset_selection_score()
         } else {
             this.reset_selection()
             throw new NotInWordListError(word)
@@ -85,6 +88,7 @@ class WordHandler{
             this.user_selection[i].deselect()
         }
         this.user_selection = []
+        this._reset_selection_score()
     }
 
     word(){
@@ -124,6 +128,7 @@ class WordHandler{
         if(tile.is_congruous(this._get_last_selection())){
             tile.select()
             this.user_selection.push(tile)
+            this._add_selection_score(tile.score)
         } else {
             throw new IncongruousSelectionError()
         }
@@ -134,6 +139,29 @@ class WordHandler{
         if(tile != this._get_last_selection()) return
         tile.deselect()
         this.user_selection.splice(this.user_selection.indexOf(tile), 1)
+        this._sub_selection_score(tile.score)
+    }
+
+    _add_selection_score(score){
+        this.selection_score += score
+        this.selection_score_el.innerText = this.selection_score
+        if(this.selection_score > 0){
+            this.selection_score_el.parentNode.style.display = "inline-block"
+        }
+    }
+
+    _sub_selection_score(score){
+        this.selection_score -= score
+        this.selection_score_el.innerText = this.selection_score
+        if(this.selection_score === 0){
+            this.selection_score_el.parentNode.style.display = "none"
+        }
+    }
+
+    _reset_selection_score(){
+        this.selection_score = 0
+        this.selection_score_el.innerText = 0
+        this.selection_score_el.parentNode.style.display = "none"
     }
 }
 

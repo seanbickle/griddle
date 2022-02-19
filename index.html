@@ -12,7 +12,14 @@
         <div id="container">
             <div id="title">griddle</div>
 
-            <div id="score_container">SCORE: <span id="score">0</span></div>
+            <div id="score_container">
+                <div class="score_label">
+                    <span id="score">0</span> points
+                    <div class="score_label" id="selection_score_container">
+                        + <span id="selection_score">0</span>
+                    </div>
+                </div>
+            </div>
 
             <div id="grid_container">
                 <div class="tile" id="tile_0" onclick="select(0)"></div>
