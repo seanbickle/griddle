@@ -41,12 +41,8 @@ body{
     line-height: 54px;
     text-align: center;
     cursor: pointer;
-    transition-duration: 0.1s;
+    transition-duration: 0.2s;
     border-radius: 8px;
-}
-
-.tile:hover{
-    background-color: rgb(241, 214, 192) !important;
 }
 
 .tile:active{
@@ -70,10 +66,6 @@ body{
     transition-duration: 0.1s;
 }
 
-.btn:hover{
-    background-color: rgb(240, 240, 240);
-}
-
 .btn:active{
     background-color: rgb(230, 230, 230);
 }
@@ -86,7 +78,7 @@ sub{
 #score_container{
     font-weight: bold;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     font-size: 25px;
     letter-spacing: 1px;
     color: rgb(50,50,50);
