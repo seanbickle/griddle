@@ -38,7 +38,7 @@ class Tile{
 }
 
 class WordHandler{
-    NUM_TILES = 64
+    NUM_TILES = 36
     grid = []
     user_selection = []
     user_score = 0
