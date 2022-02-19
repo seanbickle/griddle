@@ -16,11 +16,13 @@ class Tile{
     }
 
     select(){
-        this.el.style.backgroundColor = TILE_SELECT_COLOUR
+        this.el.style.backgroundColor = TILE_SELECT_BG_COLOUR
+        this.el.style.color = TILE_SELECT_COLOUR
     }
 
     deselect(){
-        this.el.style.backgroundColor = TILE_DEFAULT_COLOUR
+        this.el.style.backgroundColor = TILE_DEFAULT_BG_COLOUR
+        this.el.style.color = TILE_DEFAULT_COLOUR
     }
 
     randomise(){
