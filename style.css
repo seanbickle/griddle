@@ -73,6 +73,7 @@ body{
 sub{
     color: rgba(20,20,20,0.5);
     font-size: 15px;
+    font-weight: 500;
 }
 
 #score_container{
