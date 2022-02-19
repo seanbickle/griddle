@@ -38,8 +38,7 @@ class Tile{
 }
 
 class WordHandler{
-    GRID_HEIGHT = 10
-    GRID_WIDTH = 10
+    NUM_TILES = 64
     grid = []
     user_selection = []
     user_score = 0
@@ -90,8 +89,7 @@ class WordHandler{
 
     // HELPERS
     _init_grid(){
-        // Pushes GRID_HEIGHT * GRID_WIDTH letters to grid
-        for(var i = 0; i < this.GRID_HEIGHT * this.GRID_WIDTH; i++){
+        for(var i = 0; i < this.NUM_TILES; i++){
             this.grid.push(new Tile(i))
         }
     }
