@@ -59,15 +59,35 @@ body{
     font-weight: bold;
     cursor: pointer;
     text-align: center;
-    background-color: rgb(0, 204, 156);
     border-radius: 8px;
     letter-spacing: 1px;
-    color: white;
     transition-duration: 0.15s;
 }
 
-.btn:active{
+.btn-primary{
+    background-color: rgb(0, 204, 156);
+    color: white;
+}
+
+.btn-secondary{
+    height: 48px;
+    width: 138px;
+    border: 6px solid rgb(0, 204, 156);
+    color: rgb(0, 204, 156);
+    line-height: 48px;
+}
+
+.btn-primary:active{
     background-color: rgb(2, 172, 132);
+}
+
+.btn-secondary:active{
+    color: rgb(2, 172, 132);
+    border-color: rgb(2, 172, 132);
+}
+
+#submit_button{
+    float: right;
 }
 
 sub{
