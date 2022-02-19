@@ -128,6 +128,11 @@ class WordHandler{
         else this._add_selection(tile)
     }
 
+    reset(){
+        this.selection.reset(false)
+        this._reset_selection_score()
+    }
+
     submit_word(){
         // Process user selection on submission
         if(this.selection.is_word()) {
@@ -201,5 +206,5 @@ function submit(){
 }
 
 function reset(){
-    wh.selection.reset(false)
+    wh.reset()
 }
