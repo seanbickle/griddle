@@ -138,6 +138,7 @@ class WordHandler{
         } else {
             var word = this.selection.word()
             this.selection.reset(false)
+            this._reset_selection_score()
             throw new NotInWordListError(word)
         }
     }
