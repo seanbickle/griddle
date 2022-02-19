@@ -2,6 +2,7 @@ class Tile{
 
     constructor(index){
         this.index = index
+        this.coords = [index % GRID_WIDTH, Math.floor(index / GRID_WIDTH)]
         this.el = document.getElementById("tile_" + index)
         this.char = ""
 
@@ -26,6 +27,15 @@ class Tile{
         this.set_char(this._get_rand_char())
     }
 
+    is_congruous(tile){
+        // Whether this tile is congruous to another tile
+        if(tile === undefined) return true
+        return (
+            Math.abs(this.coords[0] - tile.coords[0]) <= 1 &&
+            Math.abs(this.coords[1] - tile.coords[1]) <= 1
+        )
+    }
+
     _get_rand_char(){
         // Random char A to Z
         return CHARS.charAt(this._get_rand_char_idx())
@@ -38,7 +48,6 @@ class Tile{
 }
 
 class WordHandler{
-    NUM_TILES = 36
     grid = []
     user_selection = []
     user_score = 0
@@ -89,7 +98,7 @@ class WordHandler{
 
     // HELPERS
     _init_grid(){
-        for(var i = 0; i < this.NUM_TILES; i++){
+        for(var i = 0; i < NUM_TILES; i++){
             this.grid.push(new Tile(i))
         }
     }
@@ -101,6 +110,10 @@ class WordHandler{
         else this._add_selection(tile)
     }
 
+    _get_last_selection(){
+        return this.user_selection[this.user_selection.length - 1]
+    }
+
     _already_selected(tile){
         // If grid index is already in the user's selection
         return this.user_selection.includes(tile)
@@ -108,12 +121,17 @@ class WordHandler{
 
     _add_selection(tile){
         // Add grid index to user selection
-        tile.select()
-        this.user_selection.push(tile)
+        if(tile.is_congruous(this._get_last_selection())){
+            tile.select()
+            this.user_selection.push(tile)
+        } else {
+            throw new IncongruousSelectionError()
+        }
     }
 
     _remove_selection(tile){
         // Remove grid index from user selection
+        if(tile != this._get_last_selection()) return
         tile.deselect()
         this.user_selection.splice(this.user_selection.indexOf(tile), 1)
     }

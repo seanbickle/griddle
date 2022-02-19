@@ -4,3 +4,10 @@ class NotInWordListError extends Error{
         this.name = "NotInWordListError"
     }
 }
+
+class IncongruousSelectionError extends Error{
+    constructor(){
+        super("Selected tiles must be congruous with the last selection")
+        this.name = "IncongruousSelectionError"
+    }
+}
