@@ -121,12 +121,12 @@ class WordHandler{
     }
 
     _already_selected(tile){
-        // If grid index is already in the user's selection
+        // If tile is already in the user's selection
         return this.user_selection.includes(tile)
     }
 
     _add_selection(tile){
-        // Add grid index to user selection
+        // Add tile to user selection
         if(tile.is_congruous(this._get_last_selection())){
             tile.select()
             this.user_selection.push(tile)
@@ -137,8 +137,8 @@ class WordHandler{
     }
 
     _remove_selection(tile){
-        // Remove grid index from user selection
-        if(tile != this._get_last_selection()) return
+        // Remove tile from user selection
+        if(tile != this._get_last_selection() && tile != this.user_selection[0]) return
         tile.deselect()
         this.user_selection.splice(this.user_selection.indexOf(tile), 1)
         this._sub_selection_score(tile.score)
