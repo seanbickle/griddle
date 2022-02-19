@@ -41,12 +41,8 @@ body{
     line-height: 54px;
     text-align: center;
     cursor: pointer;
-    transition-duration: 0.1s;
+    transition-duration: 0.2s;
     border-radius: 8px;
-}
-
-.tile:hover{
-    background-color: rgb(241, 214, 192) !important;
 }
 
 .tile:active{
@@ -68,10 +64,6 @@ body{
     letter-spacing: 1px;
     color: rgb(70,70,70);
     transition-duration: 0.1s;
-}
-
-.btn:hover{
-    background-color: rgb(240, 240, 240);
 }
 
 .btn:active{
