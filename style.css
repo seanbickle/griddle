@@ -68,11 +68,6 @@ body{
     justify-content: center;
 }
 
-.tile:active{
-    color: white !important;
-    background-color: rgb(2, 172, 132) !important;
-}
-
 #btn_container{
     width: 100%;
 }
