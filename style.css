@@ -1,6 +1,7 @@
 body{
     font-family: sans-serif;
     user-select: none;
+    margin: 0;
 }
 
 #container{
@@ -17,15 +18,17 @@ body{
         margin-left: 5%;
         left: 0;
     }
-  }
+}
 
-#title{
+#header{
     width: 100%;
-    text-align: center;
-    font-size: 100px;
+    height: 60px;
+    margin: 20px 0px 20px 0px;
     font-weight: 800;
+    font-size: 60px;
+    line-height: 60px;
+    text-align: center;
     color: rgb(2, 172, 132);
-    margin: 10px 0px 10px 0px;
 }
 
 #scale_container{
@@ -65,16 +68,13 @@ body{
     justify-content: center;
 }
 
-.tile:active{
-    color: white !important;
-    background-color: rgb(2, 172, 132) !important;
+#btn_container{
+    width: 100%;
 }
 
 .btn{
     height: 60px;
-    width: 150px;
     line-height: 60px;
-    display: inline-block;
     font-size: 22px;
     font-weight: bold;
     cursor: pointer;
@@ -90,8 +90,7 @@ body{
 }
 
 .btn-secondary{
-    height: 48px;
-    width: 138px;
+    box-sizing:border-box;
     border: 6px solid rgb(0, 204, 156);
     color: rgb(0, 204, 156);
     line-height: 48px;
@@ -107,7 +106,13 @@ body{
 }
 
 #submit_button{
-    float: right;
+    float:right;
+    width: 45%;
+}
+
+#clear_button{
+    float: left;
+    width: 45%;
 }
 
 sub{
@@ -129,7 +134,6 @@ sub{
     letter-spacing: 1px;
     height: 40px;
     line-height: 40px;
-    height: 100%;
     background-color: rgb(0, 204, 156);
     display: inline-block;
     color: white;

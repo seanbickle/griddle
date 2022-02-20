@@ -10,7 +10,7 @@
 
     <body>
         <div id="container">
-            <div id="title">griddle</div>
+            <div id="header">griddle</div>
 
             <div id="score_row">
                 <div class="label" id="score_container">
@@ -66,8 +66,10 @@
                 </div>
             </div>
 
-            <div class="btn btn-secondary" onclick="reset()" id="clear_button">clear</div>
-            <div class="btn btn-primary" onclick="submit()" id="submit_button">submit</div>
+            <div class="btn_container">
+                <div class="btn btn-secondary" onclick="reset()" id="clear_button">clear</div>
+                <div class="btn btn-primary" onclick="submit()" id="submit_button">submit</div>
+            </div>
         </div>
 
         <script type="text/javascript" src="wordlist.js"></script>
