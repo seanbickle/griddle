@@ -96,12 +96,12 @@ sub{
     font-weight: 500;
 }
 
-#score_container{
+#score_row{
     text-align: center;
     margin-bottom: 20px;
 }
 
-.score_label{
+.label{
     font-weight: bold;
     font-size: 25px;
     letter-spacing: 1px;
@@ -116,8 +116,16 @@ sub{
     padding-right: 15px;
 }
 
+.inner_label{
+    margin-right: -15px;
+}
+
 #selection_score_container{
     background-color: rgb(2, 172, 132);
     display: none;
-    margin-right: -15px;
+}
+
+#multiplier_container{
+    background-color: rgb(3, 145, 111);
+    display: none;
 }
