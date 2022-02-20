@@ -4,10 +4,6 @@ body{
     margin: 0;
 }
 
-b{
-    color: rgb(2, 172, 132);
-}
-
 .container{
     position: absolute;
     width: 400px;
@@ -20,11 +16,27 @@ b{
     background-color: white;
     height: 100%;
     overflow-y: scroll;
-    color: rgb(50,50,50);
     display: none;
 }
 
-#game_info{
+.modal_title{
+    width: 100%;
+    font-size: 40px;
+    margin-bottom: 20px;
+    color: rgb(3, 145, 111);
+    font-weight: bold;
+}
+
+.modal_subtitle{
+    width: 100%;
+    font-size: 20px;
+    margin: 20px 0px 20px 0px;
+    color: rgb(2, 172, 132);
+    font-weight: bold;
+}
+
+.modal_text{
+    color: rgb(50,50,50);
     font-size: 20px;
     line-height: 30px;
 }
