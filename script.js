@@ -245,24 +245,40 @@ class WordHandler{
         if(parseInt(localStorage.top_word_score) > score) return
         localStorage.top_word_score = score
         localStorage.top_word = word
+        show_toast("new top word!")
     }
 }
 
+// GAME CONTROLS
 var wh = new WordHandler()
 
 function select(i){
-    wh.select(i)
+    try{
+        wh.select(i)
+    } catch(err) {
+        if(err instanceof IncongruousSelectionError){
+            show_toast(err.message)
+        }
+    }
 }
 
 function submit(){
-    wh.submit_word()
+    try{
+        wh.submit_word()
+    } catch(err) {
+        if(err instanceof NotInWordListError){
+            show_toast(err.message)
+        }
+    }
 }
 
 function reset(){
     wh.reset()
 }
 
+// MODALS
 function show_info_modal(){
+    hide_toast()
     document.getElementById("info_modal").style.display = "inline-block"
 }
 
@@ -271,6 +287,7 @@ function hide_info_modal(){
 }
 
 function show_stats_modal(){
+    hide_toast()
     document.getElementById("stats_modal__top_word").innerText = localStorage.top_word || "none"
     document.getElementById("stats_modal__top_word_score").innerText = localStorage.top_word_score || "0"
     
@@ -281,3 +298,19 @@ function hide_stats_modal(){
     document.getElementById("stats_modal").style.display = "none"
 }
 
+// TOASTS
+var toast = document.getElementById("toast_container")
+toast.addEventListener("click", hide_toast)
+var toast_timeout = null
+
+function show_toast(text){
+    clearTimeout(toast_timeout)
+    toast.innerText = text
+    toast.style.bottom = "0"
+    toast_timeout = setTimeout(hide_toast, 3000)
+}
+
+function hide_toast(){
+    toast.innerText = ""
+    toast.style.bottom = "-25%"
+}
