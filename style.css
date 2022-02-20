@@ -4,12 +4,20 @@ body{
 }
 
 #container{
-    width: 366px;
-    height: auto;
     position: absolute;
+    width: 400px;
+    margin-left: -200px;
     left: 50%;
-    margin-left: -180px;
+    height: auto;
 }
+
+@media only screen and (max-width: 600px) {
+    #container {
+        width: 90%;
+        margin-left: 5%;
+        left: 0;
+    }
+  }
 
 #title{
     width: 100%;
@@ -20,29 +28,41 @@ body{
     margin: 10px 0px 10px 0px;
 }
 
+#scale_container{
+    position: relative;
+	width: 100%;
+    padding-top: 100%;
+    margin-bottom: 20px;
+}
+
 #grid_container{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
     background-color: rgb(230,230,230);
     color: rgb(50,50,50);
     font-weight: bold;
     font-size: 22px;
-    height: 360px;
-    width: 360px;
+    box-sizing:border-box;
     border: 3px solid rgb(230,230,230);
-    margin-bottom: 20px;
     border-radius: 8px;
 }
 
 .tile{
-    height: 54px;
-    width: 54px;
+    height: 16.666666%;
+    width: 16.666666%;
     background: rgb(250,250,250);
+    box-sizing:border-box;
     border: 3px solid rgb(230,230,230);
-    float: left;
-    line-height: 54px;
-    text-align: center;
     cursor: pointer;
     transition-duration: 0.15s;
     border-radius: 8px;
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .tile:active{
@@ -94,6 +114,8 @@ sub{
     color: rgba(20,20,20,0.5);
     font-size: 15px;
     font-weight: 500;
+    margin-top: 15px;
+    margin-left: 5px;
 }
 
 #score_row{
