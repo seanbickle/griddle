@@ -245,17 +245,30 @@ class WordHandler{
         if(parseInt(localStorage.top_word_score) > score) return
         localStorage.top_word_score = score
         localStorage.top_word = word
+        show_toast("new top word!")
     }
 }
 
 var wh = new WordHandler()
 
 function select(i){
-    wh.select(i)
+    try{
+        wh.select(i)
+    } catch(err) {
+        if(err instanceof IncongruousSelectionError){
+            show_toast(err.message)
+        }
+    }
 }
 
 function submit(){
-    wh.submit_word()
+    try{
+        wh.submit_word()
+    } catch(err) {
+        if(err instanceof NotInWordListError){
+            show_toast(err.message)
+        }
+    }
 }
 
 function reset(){
@@ -281,3 +294,17 @@ function hide_stats_modal(){
     document.getElementById("stats_modal").style.display = "none"
 }
 
+toast = document.getElementById("toast_container")
+toast.addEventListener("click", hide_toast)
+
+function show_toast(text){
+    clearTimeout()
+    toast.innerText = text
+    toast.style.bottom = "20px"
+    setTimeout(hide_toast, 3000)
+}
+
+function hide_toast(){
+    toast.innerText = ""
+    toast.style.bottom = "-25%"
+}
