@@ -4,7 +4,11 @@ body{
     margin: 0;
 }
 
-#container{
+b{
+    color: rgb(2, 172, 132);
+}
+
+.container{
     position: absolute;
     width: 400px;
     margin-left: -200px;
@@ -12,8 +16,21 @@ body{
     height: auto;
 }
 
+#info_container{
+    background-color: white;
+    height: 100%;
+    overflow-y: scroll;
+    color: rgb(50,50,50);
+    display: none;
+}
+
+#game_info{
+    font-size: 20px;
+    line-height: 30px;
+}
+
 @media only screen and (max-width: 600px) {
-    #container {
+    .container {
         width: 90%;
         margin-left: 5%;
         left: 0;
@@ -31,10 +48,6 @@ body{
     text-align: left;
     color: rgb(2, 172, 132);
     border-bottom: 1px solid rgb(230, 230, 230);
-}
-
-#title{
-    float: left;
 }
 
 .header_button{

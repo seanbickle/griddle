@@ -10,10 +10,11 @@
     </head>
 
     <body>
-        <div id="container">
+        <!-- MAIN APPLICATION -->
+        <div class="container" id="game_container">
             <div id="header">
                 griddle
-                <div class="header_button" id="info_buttom">
+                <div class="header_button" id="info_button" onclick="show_info_modal()">
                     <i class="fa-solid fa-circle-info"></i>
                 </div>
                 <div class="header_button" id="stats_button">
@@ -78,6 +79,46 @@
             <div class="btn_container">
                 <div class="btn btn-secondary" onclick="reset()" id="clear_button">clear</div>
                 <div class="btn btn-primary" onclick="submit()" id="submit_button">submit</div>
+            </div>
+        </div>
+
+        <!-- INFO MODAL -->
+        <div class="container" id="info_container">
+            <div id="header">
+                griddle
+                <div class="header_button" id="close_info_button" onclick="hide_info_modal()">
+                    <i class="fa-solid fa-close">&emsp;</i>
+                </div>
+            </div>
+
+            <div id="game_info">
+                <b>How to play</b><br><br>
+
+                griddle is a randomised word search.
+
+                <ul>
+                    <li>Each tile is worth a number of points</li>
+                    <li>Tap congruous tiles to select a word</li>
+                    <li>Earn points for each tile used in the selected word</li>
+                    <li>Double points are awarded for words 7 letters or longer</li>
+                </ul>
+
+                There's a new griddle every day.
+                
+                Enter up to five words a day and aim to achieve the highest possible score.
+
+                <br><br>
+                <b>About griddle</b><br><br>
+                The project is inspired by Wordle and was originally created during a windy weekend in February, 2022.
+
+                <br><br>
+                <b>About Me</b><br>
+
+                <ul>
+                    <li><a href="https://www.linkedin.com/in/seanbickle/" target="_blank">My LinkedIn</a></li>
+                    <li><a href="https://www.github.com/seanbickle/" target="_blank">My GitHub</a></li>
+                    <li><a href="https://www.github.com/seanbickle/griddle/" target="_blank">griddle GitHub</a></li>
+                </ul>
             </div>
         </div>
 

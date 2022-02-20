@@ -261,3 +261,11 @@ function submit(){
 function reset(){
     wh.reset()
 }
+
+function show_info_modal(){
+    document.getElementById("info_container").style.display = "inline-block"
+}
+
+function hide_info_modal(){
+    document.getElementById("info_container").style.display = "none"
+}
