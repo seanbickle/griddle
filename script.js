@@ -242,7 +242,7 @@ class WordHandler{
 
     // STATS
     _set_top_word(word, score){
-        if(parseInt(localStorage.top_word_score) < score) return
+        if(parseInt(localStorage.top_word_score) > score) return
         localStorage.top_word_score = score
         localStorage.top_word = word
     }
@@ -263,9 +263,21 @@ function reset(){
 }
 
 function show_info_modal(){
-    document.getElementById("info_container").style.display = "inline-block"
+    document.getElementById("info_modal").style.display = "inline-block"
 }
 
 function hide_info_modal(){
-    document.getElementById("info_container").style.display = "none"
+    document.getElementById("info_modal").style.display = "none"
 }
+
+function show_stats_modal(){
+    document.getElementById("stats_modal__top_word").innerText = localStorage.top_word || "none"
+    document.getElementById("stats_modal__top_word_score").innerText = localStorage.top_word_score || "0"
+    
+    document.getElementById("stats_modal").style.display = "inline-block"
+}
+
+function hide_stats_modal(){
+    document.getElementById("stats_modal").style.display = "none"
+}
+

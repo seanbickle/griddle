@@ -12,7 +12,7 @@ body{
     height: auto;
 }
 
-#info_container{
+.modal_container{
     background-color: white;
     height: 100%;
     overflow-y: scroll;
@@ -186,10 +186,10 @@ sub{
 
 .inner_label{
     margin-right: -15px;
+    background-color: rgb(2, 172, 132);
 }
 
 #selection_score_container{
-    background-color: rgb(2, 172, 132);
     display: none;
 }
 

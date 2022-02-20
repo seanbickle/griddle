@@ -17,7 +17,7 @@
                 <div class="header_button" id="info_button" onclick="show_info_modal()">
                     <i class="fa-solid fa-circle-info"></i>
                 </div>
-                <div class="header_button" id="stats_button">
+                <div class="header_button" id="stats_button" onclick="show_stats_modal()">
                     <i class="fa-solid fa-chart-column"></i>
                 </div>
             </div>
@@ -83,14 +83,14 @@
         </div>
 
         <!-- INFO MODAL -->
-        <div class="container modal_text" id="info_container">
+        <div class="container modal_container modal_text" id="info_modal">
             <div class="header">
                 griddle
                 <div class="header_button" id="close_info_button" onclick="hide_info_modal()">
                     <i class="fa-solid fa-close">&emsp;</i>
                 </div>
             </div>
-            <div class="modal_title">Info</div>
+            <div class="modal_title">info</div>
             <div class="modal_subtitle">How to play</div>
 
             griddle is a randomised word search.
@@ -114,6 +114,24 @@
                 <li><a href="https://www.github.com/seanbickle/" target="_blank">My GitHub</a></li>
                 <li><a href="https://www.github.com/seanbickle/griddle/" target="_blank">griddle GitHub</a></li>
             </ul>
+        </div>
+
+        <!-- STATS MODAL -->
+        <div class="container modal_container modal_text" id="stats_modal">
+            <div class="header">
+                griddle
+                <div class="header_button" id="close_info_button" onclick="hide_stats_modal()">
+                    <i class="fa-solid fa-close">&emsp;</i>
+                </div>
+            </div>
+            <div class="modal_title">stats</div>
+            <div class="modal_subtitle">Top Word</div>
+            <div class="label">
+                <span id="stats_modal__top_word_score">50</span> points
+                <div class="label inner_label">
+                    <span id="stats_modal__top_word">GRIDDLE</span>
+                </div>
+            </div>
         </div>
 
         <script type="text/javascript" src="wordlist.js"></script>
