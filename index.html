@@ -4,13 +4,23 @@
         <meta charset="UTF-8">
         <title>griddle</title>
         <meta name="viewport" content="width=device-width, user-scalable=no">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
         <link rel="stylesheet" href="style.css">
     </head>
 
     <body>
-        <div id="container">
-            <div id="header">griddle</div>
+        <!-- MAIN APPLICATION -->
+        <div class="container" id="game_container">
+            <div class="header">
+                griddle
+                <div class="header_button" id="info_button" onclick="show_info_modal()">
+                    <i class="fa-solid fa-circle-info"></i>
+                </div>
+                <div class="header_button" id="stats_button" onclick="show_stats_modal()">
+                    <i class="fa-solid fa-chart-column"></i>
+                </div>
+            </div>
 
             <div id="score_row">
                 <div class="label" id="score_container">
@@ -69,6 +79,58 @@
             <div class="btn_container">
                 <div class="btn btn-secondary" onclick="reset()" id="clear_button">clear</div>
                 <div class="btn btn-primary" onclick="submit()" id="submit_button">submit</div>
+            </div>
+        </div>
+
+        <!-- INFO MODAL -->
+        <div class="container modal_container modal_text" id="info_modal">
+            <div class="header">
+                griddle
+                <div class="header_button" id="close_info_button" onclick="hide_info_modal()">
+                    <i class="fa-solid fa-close">&emsp;</i>
+                </div>
+            </div>
+            <div class="modal_title">info</div>
+            <div class="modal_subtitle">How to play</div>
+
+            griddle is a randomised word search.
+
+            <ul>
+                <li>Tap congruous tiles to select a word</li>
+                <li>Earn points for each tile in the word</li>
+                <li>Earn 2x points for words with 7+ letters</li>
+                <li>Enter up to five words a day and aim to achieve the highest possible score.</li>
+            </ul>
+
+            There's a new griddle <b>every day</b>.
+
+            <div class="modal_subtitle">About griddle</div>
+            This project is inspired by Wordle and was originally created during a windy weekend in February, 2022.
+
+            <div class="modal_subtitle">About Me</div>
+
+            <ul>
+                <li><a href="https://www.linkedin.com/in/seanbickle/" target="_blank">My LinkedIn</a></li>
+                <li><a href="https://www.github.com/seanbickle/" target="_blank">My GitHub</a></li>
+                <li><a href="https://www.github.com/seanbickle/griddle/" target="_blank">griddle GitHub</a></li>
+            </ul>
+        </div>
+
+        <!-- STATS MODAL -->
+        <div class="container modal_container modal_text" id="stats_modal">
+            <div class="header">
+                griddle
+                <div class="header_button" id="close_info_button" onclick="hide_stats_modal()">
+                    <i class="fa-solid fa-close">&emsp;</i>
+                </div>
+            </div>
+            <div class="modal_title">stats</div>
+            <div class="modal_subtitle">Top Word</div>
+            <div class="label">
+                <span id="stats_modal__top_word_score">50</span> points
+                <div class="label inner_label">
+                    <span id="stats_modal__top_word">GRIDDLE</span>
+                </div>
             </div>
         </div>
 

@@ -43,7 +43,7 @@ class Tile{
     }
 
     _get_rand_char_idx(){
-        // Random int between 0 and 25
+        // Index of random char
         return Math.floor(Math.random() * CHARS.length)
     }
 }
@@ -103,11 +103,6 @@ class Selection{
         return word.toLowerCase()
     }
 
-    is_word(){
-        // Determines whether the user selection makes a word
-        return WORDLIST.includes(this.word())
-    }
-
     is_middle_tile(tile){
         return tile != this.last() && tile != this.first()
     }
@@ -149,13 +144,16 @@ class WordHandler{
 
     submit_word(){
         // Process user selection on submission
-        if(this.selection.is_word()) {
-            this.user_score += (this.selection_score * this.multiplier)
+        var word = this.selection.word()
+        if(WORDLIST.includes(word)) {
+            var score = this.selection_score * this.multiplier
+
+            this._set_top_word(word, score)
+            this.user_score += score
             this.selection.reset(true)
             this.score_el.innerText = this.user_score
             this._hide_selection_score()
         } else {
-            var word = this.selection.word()
             this.selection.reset(false)
             this._hide_selection_score()
             throw new NotInWordListError(word)
@@ -241,6 +239,13 @@ class WordHandler{
         this.multiplier_el.innerText = 2
         this.multiplier_el.parentNode.style.display = "none"
     }
+
+    // STATS
+    _set_top_word(word, score){
+        if(parseInt(localStorage.top_word_score) > score) return
+        localStorage.top_word_score = score
+        localStorage.top_word = word
+    }
 }
 
 var wh = new WordHandler()
@@ -256,3 +261,23 @@ function submit(){
 function reset(){
     wh.reset()
 }
+
+function show_info_modal(){
+    document.getElementById("info_modal").style.display = "inline-block"
+}
+
+function hide_info_modal(){
+    document.getElementById("info_modal").style.display = "none"
+}
+
+function show_stats_modal(){
+    document.getElementById("stats_modal__top_word").innerText = localStorage.top_word || "none"
+    document.getElementById("stats_modal__top_word_score").innerText = localStorage.top_word_score || "0"
+    
+    document.getElementById("stats_modal").style.display = "inline-block"
+}
+
+function hide_stats_modal(){
+    document.getElementById("stats_modal").style.display = "none"
+}
+
