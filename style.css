@@ -73,11 +73,13 @@ body{
     background-color: rgb(2, 172, 132) !important;
 }
 
+#btn_container{
+    width: 100%;
+}
+
 .btn{
     height: 60px;
-    width: 150px;
     line-height: 60px;
-    display: inline-block;
     font-size: 22px;
     font-weight: bold;
     cursor: pointer;
@@ -93,8 +95,7 @@ body{
 }
 
 .btn-secondary{
-    height: 48px;
-    width: 138px;
+    box-sizing:border-box;
     border: 6px solid rgb(0, 204, 156);
     color: rgb(0, 204, 156);
     line-height: 48px;
@@ -110,7 +111,13 @@ body{
 }
 
 #submit_button{
-    float: right;
+    float:right;
+    width: 45%;
+}
+
+#clear_button{
+    float: left;
+    width: 45%
 }
 
 sub{
