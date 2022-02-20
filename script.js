@@ -249,6 +249,7 @@ class WordHandler{
     }
 }
 
+// GAME CONTROLS
 var wh = new WordHandler()
 
 function select(i){
@@ -275,7 +276,9 @@ function reset(){
     wh.reset()
 }
 
+// MODALS
 function show_info_modal(){
+    hide_toast()
     document.getElementById("info_modal").style.display = "inline-block"
 }
 
@@ -284,6 +287,7 @@ function hide_info_modal(){
 }
 
 function show_stats_modal(){
+    hide_toast()
     document.getElementById("stats_modal__top_word").innerText = localStorage.top_word || "none"
     document.getElementById("stats_modal__top_word_score").innerText = localStorage.top_word_score || "0"
     
@@ -294,14 +298,16 @@ function hide_stats_modal(){
     document.getElementById("stats_modal").style.display = "none"
 }
 
-toast = document.getElementById("toast_container")
+// TOASTS
+var toast = document.getElementById("toast_container")
 toast.addEventListener("click", hide_toast)
+var toast_timeout = null
 
 function show_toast(text){
-    clearTimeout()
+    clearTimeout(toast_timeout)
     toast.innerText = text
-    toast.style.bottom = "20px"
-    setTimeout(hide_toast, 3000)
+    toast.style.bottom = "0"
+    toast_timeout = setTimeout(hide_toast, 3000)
 }
 
 function hide_toast(){

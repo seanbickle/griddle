@@ -7,7 +7,7 @@ class NotInWordListError extends Error{
 
 class IncongruousSelectionError extends Error{
     constructor(){
-        super("selected tiles must be congruous with the last selection")
+        super("selected tiles must be congruous")
         this.name = "IncongruousSelectionError"
     }
 }
