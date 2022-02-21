@@ -139,11 +139,10 @@ class Score{
 
     _save(){
         // Save the current score
-        // TODO: Reset if there's a new griddle
         try{
             localStorage.score = this.score
         } catch(err){
-            console.err("Problem saving score: ", err)
+            console.error("Problem saving score: ", err)
         }
     }
 
@@ -155,8 +154,54 @@ class Score{
             if(stored_score) return parseInt(localStorage.score)
             else return this.score
         } catch(err){
-            console.err("Problem loading score: ", err)
+            console.error("Problem loading score: ", err)
             return this.score
+        }
+    }
+}
+
+class Words{
+    constructor(){
+        this.words = []
+
+        this.set(this._load())
+    }
+
+    count(){
+        // Return the number of words that the player has entered
+        return this.words.length
+    }
+
+    set(words){
+        this.words = words
+        this._save()
+    }
+
+    add(word){
+        // Add a word to the user's list of words
+        this.words.push(word)
+        this._save()
+    }
+
+    _save(){
+        // Save today's entered  words
+        try{
+            localStorage.words = JSON.stringify(this.words)
+        } catch(err){
+            console.error("Problem saving words: ", err)
+        }
+    }
+
+    _load(){
+        // Load today's entered words
+        // TODO: Reset if there's a new griddle
+        try{
+            var stored_words = localStorage.words
+            if(stored_words) return JSON.parse(localStorage.words)
+            else return this.words
+        } catch(err){
+            console.error("Problem loading words: ", err)
+            return this.words
         }
     }
 }
@@ -165,6 +210,7 @@ class WordHandler{
     grid = []
     score = new Score()
     selection = new Selection()
+    words = new Words()
     selection_score = 0
     multiplier = 1
     selection_score_el = document.getElementById("selection_score")
@@ -195,6 +241,7 @@ class WordHandler{
             var score = this.selection_score * this.multiplier
 
             this.score.add(score)
+            this.words.add([word, score])
             this.selection.reset(true)
             this._hide_selection_score()
             this._set_top_word(word, score)
