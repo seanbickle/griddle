@@ -161,7 +161,7 @@ class Score{
     }
 }
 
-class WordHandler{
+class GriddleHandler{
     grid = []
     score = new Score()
     selection = new Selection()
@@ -313,11 +313,11 @@ class WordHandler{
 }
 
 // GAME CONTROLS
-var wh = new WordHandler()
+var gh = new GriddleHandler()
 
 function select(i){
     try{
-        wh.select(i)
+        gh.select(i)
     } catch(err) {
         if(err instanceof AdjacentSelectionError){
             show_toast(err.message)
@@ -327,7 +327,7 @@ function select(i){
 
 function submit(){
     try{
-        wh.submit_word()
+        gh.submit_word()
     } catch(err) {
         if(err instanceof NotInWordListError){
             show_toast(err.message)
@@ -336,7 +336,7 @@ function submit(){
 }
 
 function reset(){
-    wh.reset()
+    gh.reset()
 }
 
 // MODALS
