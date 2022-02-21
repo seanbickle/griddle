@@ -47,7 +47,7 @@ CHARS = (
 
 def generate_buffer():
     return [
-        CHARS[randint(0, len(CHARS))]
+        CHARS[randint(0, len(CHARS) - 1)]
         for i in range(GRID_HEIGHT * GRID_HEIGHT * WORD_LIMIT)
     ]
 
