@@ -151,8 +151,9 @@ class Score{
         // TODO: Reset if there's a new griddle
         try{
             var stored_score = localStorage.score
-            if(stored_score) return parseInt(localStorage.score)
-            else return this.score
+            if(stored_score && !GRIDDLE_OUTDATED){
+                return parseInt(localStorage.score)
+            } else return this.score
         } catch(err){
             console.error("Problem loading score: ", err)
             return this.score
@@ -194,11 +195,11 @@ class Words{
 
     _load(){
         // Load today's entered words
-        // TODO: Reset if there's a new griddle
         try{
             var stored_words = localStorage.words
-            if(stored_words) return JSON.parse(localStorage.words)
-            else return this.words
+            if(stored_words && !GRIDDLE_OUTDATED){
+                return JSON.parse(stored_words)
+            } else return this.words
         } catch(err){
             console.error("Problem loading words: ", err)
             return this.words
@@ -206,7 +207,7 @@ class Words{
     }
 }
 
-class WordHandler{
+class GriddleHandler{
     grid = []
     score = new Score()
     selection = new Selection()
@@ -269,10 +270,12 @@ class WordHandler{
     }
 
     _load_buffer(){
-        // Load the buffer back from local storage if it exists.
-        // TODO: Check whether the buffer has expired.
+        // Load the buffer back from local storage if it exists and the
+        // griddle isn't outdated
         try {
-            if(localStorage.buffer) BUFFER = JSON.parse(localStorage.buffer)
+            if(localStorage.buffer && !GRIDDLE_OUTDATED) {
+                BUFFER = JSON.parse(localStorage.buffer)
+            }
         } catch(err) {
             console.error("Problem loading buffer, using original: ", err)
         }
@@ -371,11 +374,11 @@ class WordHandler{
 }
 
 // GAME CONTROLS
-var wh = new WordHandler()
+var gh = new GriddleHandler()
 
 function select(i){
     try{
-        wh.select(i)
+        gh.select(i)
     } catch(err) {
         if(err instanceof AdjacentSelectionError){
             show_toast(err.message)
@@ -387,7 +390,7 @@ function select(i){
 
 function submit(){
     try{
-        wh.submit_word()
+        gh.submit_word()
     } catch(err) {
         if(err instanceof NotInWordListError){
             show_toast(err.message)
@@ -398,7 +401,7 @@ function submit(){
 }
 
 function reset(){
-    wh.reset()
+    gh.reset()
 }
 
 // INFO MODAL
@@ -416,7 +419,7 @@ var stats_gameover_clock_el = document.getElementById("stats_gameover_clock")
 var stats_gameover_clock = null
 
 function show_stats_modal(){
-    if(wh.is_gameover() && !stats_gameover_clock){
+    if(gh.is_gameover() && !stats_gameover_clock){
         update_next_griddle_clock()
         stats_gameover_clock = setInterval(update_next_griddle_clock, 1000)
         stats_gameover_container.style.display = "inline"
