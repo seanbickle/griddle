@@ -34,8 +34,8 @@ class Tile{
         return this.char
     }
 
-    is_congruous(tile){
-        // Whether this tile is congruous to another tile
+    is_adjacent(tile){
+        // Whether this tile is adjacent to another tile
         if(!tile) return true
         return (
             Math.abs(this.coords[0] - tile.coords[0]) <= 1 &&
@@ -184,12 +184,12 @@ class WordHandler{
 
     _add_selection(tile){
         // Add tile to user selection
-        if(tile.is_congruous(this.selection.last())){
+        if(tile.is_adjacent(this.selection.last())){
             this.selection.add_tile(tile)
             this._add_selection_score(tile.score)
             this._check_multiplier()
         } else {
-            throw new IncongruousSelectionError()
+            throw new AdjacentSelectionError()
         }
     }
 
@@ -271,7 +271,7 @@ function select(i){
     try{
         wh.select(i)
     } catch(err) {
-        if(err instanceof IncongruousSelectionError){
+        if(err instanceof AdjacentSelectionError){
             show_toast(err.message)
         }
     }
