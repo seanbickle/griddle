@@ -62,7 +62,6 @@ body{
 
 #stats_gameover_container{
     padding-bottom: 10px;
-    border-bottom: 1px solid rgb(230, 230, 230);
     display: none;
 }
 
