@@ -47,18 +47,31 @@ class Tile{
 class Selection{
     constructor(){
         this.tiles = []
+        this.submit_button = document.getElementById("submit_button")
     }
 
     add_tile(tile){
         // Add a tile to the selection array
         tile.select()
         this.tiles.push(tile)
+
+        // Re-enable submit button
+        if(this.tiles.length == 0){
+            this.submit_button.style.backgroundColor = "rgb(2, 172, 132)"
+            this.submit_button.style.cursor = "pointer"
+        }
     }
 
     remove_tile(tile){
         // Remove a tile from the selection array
         tile.deselect()
         this.tiles.splice(this.tiles.indexOf(tile), 1)
+
+        // Disable submit button
+        if(this.tiles.length == 0){
+            this.submit_button.style.backgroundColor = "rgb(230,230,230)"
+            this.submit_button.style.cursor = "not-allowed"
+        }
     }
 
     reset(randomise_tiles){
@@ -447,7 +460,11 @@ function select(i){
 
 function submit(){
     try{
-        gh.submit_word()
+        if(gh.selection.length() > 0){
+            gh.submit_word()   
+        } else {
+            show_toast("make a selection before submitting")
+        }
     } catch(err) {
         if(err instanceof NotInWordListError){
             show_toast(err.message)

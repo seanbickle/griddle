@@ -175,6 +175,9 @@ body{
 }
 
 #submit_button{
+    background: rgb(230,230,230);
+    cursor: not-allowed;
+    transition-duration: 0.2s;
     float:right;
     width: 45%;
 }
