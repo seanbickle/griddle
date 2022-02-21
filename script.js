@@ -139,11 +139,10 @@ class Score{
 
     _save(){
         // Save the current score
-        // TODO: Reset if there's a new griddle
         try{
             localStorage.score = this.score
         } catch(err){
-            console.err("Problem saving score: ", err)
+            console.error("Problem saving score: ", err)
         }
     }
 
@@ -155,8 +154,54 @@ class Score{
             if(stored_score) return parseInt(localStorage.score)
             else return this.score
         } catch(err){
-            console.err("Problem loading score: ", err)
+            console.error("Problem loading score: ", err)
             return this.score
+        }
+    }
+}
+
+class Words{
+    constructor(){
+        this.words = []
+
+        this.set(this._load())
+    }
+
+    count(){
+        // Return the number of words that the player has entered
+        return this.words.length
+    }
+
+    set(words){
+        this.words = words
+        this._save()
+    }
+
+    add(word){
+        // Add a word to the user's list of words
+        this.words.push(word)
+        this._save()
+    }
+
+    _save(){
+        // Save today's entered  words
+        try{
+            localStorage.words = JSON.stringify(this.words)
+        } catch(err){
+            console.error("Problem saving words: ", err)
+        }
+    }
+
+    _load(){
+        // Load today's entered words
+        // TODO: Reset if there's a new griddle
+        try{
+            var stored_words = localStorage.words
+            if(stored_words) return JSON.parse(localStorage.words)
+            else return this.words
+        } catch(err){
+            console.error("Problem loading words: ", err)
+            return this.words
         }
     }
 }
@@ -165,6 +210,7 @@ class WordHandler{
     grid = []
     score = new Score()
     selection = new Selection()
+    words = new Words()
     selection_score = 0
     multiplier = 1
     selection_score_el = document.getElementById("selection_score")
@@ -178,6 +224,7 @@ class WordHandler{
     // INTERFACE
     select(index){
         // Toggles selection
+        this._check_gameover()
         var tile = this.grid[index]
         if(this.selection.includes(tile)) this._remove_selection(tile)
         else this._add_selection(tile)
@@ -195,6 +242,7 @@ class WordHandler{
             var score = this.selection_score * this.multiplier
 
             this.score.add(score)
+            this.words.add([word, score])
             this.selection.reset(true)
             this._hide_selection_score()
             this._set_top_word(word, score)
@@ -205,6 +253,12 @@ class WordHandler{
             this._hide_selection_score()
             throw new NotInWordListError(word)
         }
+
+        this._check_gameover()
+    }
+
+    is_gameover(){
+        return this.words.count() >= WORD_LIMIT
     }
 
     // HELPERS
@@ -228,6 +282,10 @@ class WordHandler{
         // Store the grid plus the remainder of the buffer
         // This will be read back into the grid in order when the game reloads
         localStorage.buffer = JSON.stringify(this.grid.concat(BUFFER))
+    }
+
+    _check_gameover(){
+        if(this.words.count() >= WORD_LIMIT) throw new GameOver()
     }
 
     _add_selection(tile){
@@ -321,6 +379,8 @@ function select(i){
     } catch(err) {
         if(err instanceof AdjacentSelectionError){
             show_toast(err.message)
+        } else if(err instanceof GameOver){
+            show_toast("come back tomorrow for another griddle")
         }
     }
 }
@@ -331,6 +391,8 @@ function submit(){
     } catch(err) {
         if(err instanceof NotInWordListError){
             show_toast(err.message)
+        } else if(err instanceof GameOver){
+            show_stats_modal()
         }
     }
 }
@@ -339,9 +401,8 @@ function reset(){
     wh.reset()
 }
 
-// MODALS
+// INFO MODAL
 function show_info_modal(){
-    hide_toast()
     document.getElementById("info_modal").style.display = "inline-block"
 }
 
@@ -349,8 +410,18 @@ function hide_info_modal(){
     document.getElementById("info_modal").style.display = "none"
 }
 
+// STATS MODAL
+var stats_gameover_container = document.getElementById("stats_gameover_container")
+var stats_gameover_clock_el = document.getElementById("stats_gameover_clock")
+var stats_gameover_clock = null
+
 function show_stats_modal(){
-    hide_toast()
+    if(wh.is_gameover() && !stats_gameover_clock){
+        update_next_griddle_clock()
+        stats_gameover_clock = setInterval(update_next_griddle_clock, 1000)
+        stats_gameover_container.style.display = "inline"
+    }
+
     document.getElementById("stats_modal__top_word").innerText = localStorage.top_word || "none"
     document.getElementById("stats_modal__top_word_score").innerText = localStorage.top_word_score || "0"
     
@@ -359,6 +430,30 @@ function show_stats_modal(){
 
 function hide_stats_modal(){
     document.getElementById("stats_modal").style.display = "none"
+}
+
+function update_next_griddle_clock(){
+    // Tick gameover clock
+    var time_now = new Date().getTime()
+    var distance = get_next_griddle_time() - time_now
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    stats_gameover_clock_el.innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+
+    if(distance <= 0){
+        show_toast("refresh the page for a new griddle!")
+        clearInterval(stats_gameover_clock)
+    }
+}
+
+function get_next_griddle_time(){
+    var time_tomorrow = new Date()
+    time_tomorrow.setHours(0)
+    time_tomorrow.setMinutes(0)
+    time_tomorrow.setSeconds(0)
+    time_tomorrow.setDate(time_tomorrow.getDate() + 1)
+    return time_tomorrow.getTime()
 }
 
 // TOASTS
