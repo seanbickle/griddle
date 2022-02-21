@@ -132,6 +132,17 @@ class Score{
         this._save()
     }
 
+    get(){
+        return this.score
+    }
+
+    check_for_high_score(){
+        var old_high_score = parseInt(localStorage.top_game_score)
+        if(old_high_score && old_high_score >= this.score) return
+        localStorage.top_game_score = this.score
+        show_toast("new high score!")
+    }
+
     _render(){
         // Update the element
         this.score_el.innerText = this.score
@@ -225,7 +236,7 @@ class GriddleHandler{
     // INTERFACE
     select(index){
         // Toggles selection
-        this._check_gameover()
+        if(this.is_gameover()) throw new GameOver()
         var tile = this.grid[index]
         if(this.selection.includes(tile)) this._remove_selection(tile)
         else this._add_selection(tile)
@@ -255,7 +266,10 @@ class GriddleHandler{
             throw new NotInWordListError(word)
         }
 
-        this._check_gameover()
+        if(this.is_gameover()){
+            this._save_game_stats()
+            throw new GameOver()
+        }
     }
 
     is_gameover(){
@@ -285,10 +299,6 @@ class GriddleHandler{
         // Store the grid plus the remainder of the buffer
         // This will be read back into the grid in order when the game reloads
         localStorage.buffer = JSON.stringify(this.grid.concat(BUFFER))
-    }
-
-    _check_gameover(){
-        if(this.words.count() >= WORD_LIMIT) throw new GameOver()
     }
 
     _add_selection(tile){
@@ -365,6 +375,10 @@ class GriddleHandler{
     }
 
     // STATS
+    _save_game_stats(){
+        this.score.check_for_high_score()
+    }
+
     _set_top_word(word, score){
         if(parseInt(localStorage.top_word_score) > score) return
         localStorage.top_word_score = score
@@ -427,6 +441,7 @@ function show_stats_modal(){
 
     document.getElementById("stats_modal__top_word").innerText = localStorage.top_word || "none"
     document.getElementById("stats_modal__top_word_score").innerText = localStorage.top_word_score || "0"
+    document.getElementById("stats_modal__top_game_score").innerText = localStorage.top_game_score || 0
     
     document.getElementById("stats_modal").style.display = "inline-block"
 }
