@@ -175,8 +175,15 @@ class Score{
 class Words{
     constructor(){
         this.words = []
+        this.word_container = document.getElementById("word_container")
 
         this.set(this._load())
+
+        // Render any words that already exist
+        for(var i = 0; i < this.words.length; i++){
+            this._render(this.words[i], i)
+            this.word_container.style.display = "inline-block"
+        }
     }
 
     count(){
@@ -192,6 +199,8 @@ class Words{
     add(word){
         // Add a word to the user's list of words
         this.words.push(word)
+        this._render(word, this.words.length - 1)
+        this.word_container.style.display = "inline-block"
         this._save()
     }
 
@@ -215,6 +224,13 @@ class Words{
             console.error("Problem loading words: ", err)
             return this.words
         }
+    }
+
+    _render(word_data, w_index){
+        console.log(w_index)
+        document.getElementById("word_" + w_index + "_score").innerText = word_data[1]
+        document.getElementById("word_" + w_index + "_word").innerText = word_data[0]
+        document.getElementById("word_" + w_index).style.display = "inline-block"
     }
 }
 
