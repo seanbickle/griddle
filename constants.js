@@ -1,8 +1,12 @@
 // Game constants
 // Keeps track of whether wordle needs to be refreshed
-CURRENT_GRIDDLE_ID = new Date().toISOString().split("T")[0]
-GRIDDLE_OUTDATED = (CURRENT_GRIDDLE_ID != localStorage.last_griddle_id)
-localStorage.last_griddle_id = CURRENT_GRIDDLE_ID
+DATE_TODAY = new Date()
+DATE_YESTERDAY = new Date()
+DATE_YESTERDAY.setDate(DATE_TODAY.getDate() - 1)
+LAST_GRIDDLE_ID = DATE_YESTERDAY.toISOString().split("T")[0]
+CURRENT_GRIDDLE_ID = DATE_TODAY.toISOString().split("T")[0]
+GRIDDLE_OUTDATED = (CURRENT_GRIDDLE_ID != localStorage.last_played_griddle_id)
+localStorage.last_played_griddle_id = CURRENT_GRIDDLE_ID
 
 WORD_LIMIT = 5
 NUM_TILES = 36
