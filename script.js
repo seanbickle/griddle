@@ -111,13 +111,62 @@ class Selection{
     }
 }
 
+class Score{
+    constructor(){
+        this.score = 0
+        this.score_el = document.getElementById("score")
+        this.set(this._load())
+    }
+
+    add(score){
+        // Add onto the existing score
+        this.score += score
+        this._render()
+        this._save()
+    }
+
+    set(score){
+        // Overwrite the existing score
+        this.score = score
+        this._render()
+        this._save()
+    }
+
+    _render(){
+        // Update the element
+        this.score_el.innerText = this.score
+    }
+
+    _save(){
+        // Save the current score
+        // TODO: Reset if there's a new griddle
+        try{
+            localStorage.score = this.score
+        } catch(err){
+            console.err("Problem saving score: ", err)
+        }
+    }
+
+    _load(){
+        // Load the last score
+        // TODO: Reset if there's a new griddle
+        try{
+            var stored_score = localStorage.score
+            if(stored_score) return parseInt(localStorage.score)
+            else return this.score
+        } catch(err){
+            console.err("Problem loading score: ", err)
+            return this.score
+        }
+    }
+}
+
 class WordHandler{
     grid = []
+    score = new Score()
     selection = new Selection()
-    user_score = 0
     selection_score = 0
     multiplier = 1
-    score_el = document.getElementById("score")
     selection_score_el = document.getElementById("selection_score")
     multiplier_el = document.getElementById("score_multiplier")
 
@@ -145,11 +194,10 @@ class WordHandler{
         if(WORDLIST.includes(word)) {
             var score = this.selection_score * this.multiplier
 
-            this._set_top_word(word, score)
-            this.user_score += score
+            this.score.add(score)
             this.selection.reset(true)
-            this.score_el.innerText = this.user_score
             this._hide_selection_score()
+            this._set_top_word(word, score)
 
             this._save_buffer()
         } else {
