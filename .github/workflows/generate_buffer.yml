@@ -1,0 +1,29 @@
+# This generates a new character buffer every day
+
+name: Buffer Generation
+
+# Triggered by cron every day at 00:00 UTC
+on:
+  schedule:
+  - cron: "0 0 * * *"
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  generate_buffer:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out repository under $GITHUB_WORKSPACE
+      - uses: actions/checkout@v2
+
+      - name: Run the generation script
+        run: python generate_buffer.py
+      - name: Add the buffer changes
+        run: git add buffer.js
+      - name: Commit the changes to the buffer
+        run: git commit -m "Daily buffer generation by GitHub Action"
+      - name: Fetch main
+        run: git fetch origin main
+      - name: Push changes to main
+        run: git push origin HEAD:main
