@@ -375,7 +375,7 @@ function select(i){
     } catch(err) {
         if(err instanceof AdjacentSelectionError){
             show_toast(err.message)
-        }else if(err instanceof GameOver){
+        } else if(err instanceof GameOver){
             show_stats_modal()
         }
     }
@@ -387,6 +387,8 @@ function submit(){
     } catch(err) {
         if(err instanceof NotInWordListError){
             show_toast(err.message)
+        } else if(err instanceof GameOver){
+            show_stats_modal()
         }
     }
 }
