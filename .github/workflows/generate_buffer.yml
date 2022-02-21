@@ -19,6 +19,10 @@ jobs:
 
       - name: Run the generation script
         run: python generate_buffer.py
+      - name: Set Git username
+        run: git config user.name "Sean Bickle"
+      - name: set Git email
+        run: git config user.email "sean.a.bickle@gmail.com"
       - name: Add the buffer changes
         run: git add buffer.js
       - name: Commit the changes to the buffer
