@@ -229,7 +229,6 @@ class Words{
     }
 
     _render(word_data, w_index){
-        console.log(w_index)
         document.getElementById("word_" + w_index + "_score").innerText = word_data[1]
         document.getElementById("word_" + w_index + "_word").innerText = word_data[0]
         document.getElementById("word_" + w_index).style.display = "inline-block"
