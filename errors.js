@@ -5,9 +5,9 @@ class NotInWordListError extends Error{
     }
 }
 
-class IncongruousSelectionError extends Error{
+class AdjacentSelectionError extends Error{
     constructor(){
-        super("selected tiles must be congruous")
-        this.name = "IncongruousSelectionError"
+        super("selected tiles must be adjacent")
+        this.name = "AdjacentSelectionError"
     }
 }
