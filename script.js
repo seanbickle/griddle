@@ -394,6 +394,15 @@ class GriddleHandler{
     // STATS
     _save_game_stats(){
         this.score.check_for_high_score()
+        this._increment_games_played()
+    }
+
+    _increment_games_played(){
+        var games_played = parseInt(localStorage.games_played)
+        if(games_played) games_played += 1
+        else games_played = 1
+
+        localStorage.games_played = games_played
     }
 
     _set_top_word(word, score){
@@ -473,8 +482,9 @@ function show_stats_modal(){
 
     document.getElementById("stats_modal__top_word").innerText = localStorage.top_word || "none"
     document.getElementById("stats_modal__top_word_score").innerText = localStorage.top_word_score || "0"
-    document.getElementById("stats_modal__top_game_score").innerText = localStorage.top_game_score || 0
-    
+    document.getElementById("stats_modal__top_game_score").innerText = localStorage.top_game_score || "0"
+    document.getElementById("stats_modal__games_played").innerText = localStorage.games_played || "0"
+
     document.getElementById("stats_modal").style.display = "inline-block"
 }
 
