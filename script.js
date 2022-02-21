@@ -55,11 +55,7 @@ class Selection{
         tile.select()
         this.tiles.push(tile)
 
-        // Re-enable submit button
-        if(this.tiles.length == 0){
-            this.submit_button.style.backgroundColor = "rgb(2, 172, 132)"
-            this.submit_button.style.cursor = "pointer"
-        }
+        this._enable_submit_button()
     }
 
     remove_tile(tile){
@@ -68,10 +64,7 @@ class Selection{
         this.tiles.splice(this.tiles.indexOf(tile), 1)
 
         // Disable submit button
-        if(this.tiles.length == 0){
-            this.submit_button.style.backgroundColor = "rgb(230,230,230)"
-            this.submit_button.style.cursor = "not-allowed"
-        }
+        this._disable_submit_button()
     }
 
     reset(randomise_tiles){
@@ -81,6 +74,8 @@ class Selection{
             if(randomise_tiles) this.tiles[i].set_next_char()
         }
         this.tiles = []
+
+        this._disable_submit_button()
     }
 
     includes(tile){
@@ -120,6 +115,20 @@ class Selection{
         // Forces the selected tiles to fresh their background
         for(var i = 0; i < this.tiles.length; i++){
             this.tiles[i].el.style.backgroundColor = CURRENT_TILE_BG_COLOUR
+        }
+    }
+
+    _enable_submit_button(){
+        if(this.tiles.length > 0){
+            this.submit_button.style.backgroundColor = "rgb(2, 172, 132)"
+            this.submit_button.style.cursor = "pointer"
+        }
+    }
+
+    _disable_submit_button(){
+        if(this.tiles.length == 0){
+            this.submit_button.style.backgroundColor = "rgb(230,230,230)"
+            this.submit_button.style.cursor = "not-allowed"
         }
     }
 }
@@ -193,7 +202,7 @@ class Words{
         this.set(this._load())
 
         // Render any words that already exist
-        if(this.words != []){
+        if(this.words.length > 0){
             for(var i = 0; i < this.words.length; i++){
                 this._render(this.words[i], i)
             }
