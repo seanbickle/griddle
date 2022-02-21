@@ -234,6 +234,7 @@ sub{
     width: 100%;
     border-top: 1px solid rgb(230, 230, 230);
     display: none;
+    margin-bottom: 10px;
 }
 
 .word{
