@@ -419,11 +419,11 @@ function reset(){
 }
 
 function share_griddle(){
-    var share_text = `#griddle ${CURRENT_GRIDDLE_ID}: `
+    var share_text = `#griddle ${CURRENT_GRIDDLE_ID}:\n`
     for(var i = 0; i < gh.words.count(); i++){
-        share_text += `(${gh.words.words[i][1]}) ${gh.words.words[i][0]} `
+        share_text += `\n(${gh.words.words[i][1]}) ${gh.words.words[i][0]}`
     }
-    var temp_share_field = document.createElement("input")
+    var temp_share_field = document.createElement("textarea")
     temp_share_field.value = share_text
     temp_share_field.select()
     temp_share_field.setSelectionRange(0, 99999);  // mobile
