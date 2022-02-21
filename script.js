@@ -281,7 +281,7 @@ class WordHandler{
     }
 
     _check_gameover(){
-        if(this.words.count() > WORD_LIMIT) throw new GameOver()
+        if(this.words.count() >= WORD_LIMIT) throw new GameOver()
     }
 
     _add_selection(tile){
