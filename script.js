@@ -30,6 +30,10 @@ class Tile{
         if(next_char) this.set_char(next_char)
     }
 
+    toJSON(){
+        return this.char
+    }
+
     is_congruous(tile){
         // Whether this tile is congruous to another tile
         if(!tile) return true
@@ -118,6 +122,7 @@ class WordHandler{
     multiplier_el = document.getElementById("score_multiplier")
 
     constructor(){
+        this._load_buffer()
         this._init_grid()
     }
 
@@ -145,6 +150,8 @@ class WordHandler{
             this.selection.reset(true)
             this.score_el.innerText = this.user_score
             this._hide_selection_score()
+
+            this._save_buffer()
         } else {
             this.selection.reset(false)
             this._hide_selection_score()
@@ -157,6 +164,22 @@ class WordHandler{
         for(var i = 0; i < NUM_TILES; i++){
             this.grid.push(new Tile(i))
         }
+    }
+
+    _load_buffer(){
+        // Load the buffer back from local storage if it exists.
+        // TODO: Check whether the buffer has expired.
+        try {
+            if(localStorage.buffer) BUFFER = JSON.parse(localStorage.buffer)
+        } catch(err) {
+            console.error("Problem loading buffer, using original: ", err)
+        }
+    }
+
+    _save_buffer(){
+        // Store the grid plus the remainder of the buffer
+        // This will be read back into the grid in order when the game reloads
+        localStorage.buffer = JSON.stringify(this.grid.concat(BUFFER))
     }
 
     _add_selection(tile){
