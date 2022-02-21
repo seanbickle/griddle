@@ -5,7 +5,7 @@ class Tile{
         this.el = document.getElementById("tile_" + index)
         this.char = ""
 
-        this.randomise()
+        this.set_next_char()
     }
 
     set_char(char){
@@ -24,8 +24,10 @@ class Tile{
         this.el.style.color = TILE_DEFAULT_COLOUR
     }
 
-    randomise(){
-        this.set_char(this._get_rand_char())
+    set_next_char(){
+        // Sets the char to the next char in the buffer
+        var next_char = BUFFER.shift()
+        if(next_char) this.set_char(next_char)
     }
 
     is_congruous(tile){
@@ -35,16 +37,6 @@ class Tile{
             Math.abs(this.coords[0] - tile.coords[0]) <= 1 &&
             Math.abs(this.coords[1] - tile.coords[1]) <= 1
         )
-    }
-
-    _get_rand_char(){
-        // Random char A to Z
-        return CHARS.charAt(this._get_rand_char_idx())
-    }
-
-    _get_rand_char_idx(){
-        // Index of random char
-        return Math.floor(Math.random() * CHARS.length)
     }
 }
 
@@ -69,7 +61,7 @@ class Selection{
         // Reset tiles and clear selection
         for(var i = 0; i < this.tiles.length; i++){
             this.tiles[i].deselect()
-            if(randomise_tiles) this.tiles[i].randomise()
+            if(randomise_tiles) this.tiles[i].set_next_char()
         }
         this.tiles = []
     }
