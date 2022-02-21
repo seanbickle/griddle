@@ -47,18 +47,24 @@ class Tile{
 class Selection{
     constructor(){
         this.tiles = []
+        this.submit_button = document.getElementById("submit_button")
     }
 
     add_tile(tile){
         // Add a tile to the selection array
         tile.select()
         this.tiles.push(tile)
+
+        this._enable_submit_button()
     }
 
     remove_tile(tile){
         // Remove a tile from the selection array
         tile.deselect()
         this.tiles.splice(this.tiles.indexOf(tile), 1)
+
+        // Disable submit button
+        this._disable_submit_button()
     }
 
     reset(randomise_tiles){
@@ -68,6 +74,8 @@ class Selection{
             if(randomise_tiles) this.tiles[i].set_next_char()
         }
         this.tiles = []
+
+        this._disable_submit_button()
     }
 
     includes(tile){
@@ -107,6 +115,20 @@ class Selection{
         // Forces the selected tiles to fresh their background
         for(var i = 0; i < this.tiles.length; i++){
             this.tiles[i].el.style.backgroundColor = CURRENT_TILE_BG_COLOUR
+        }
+    }
+
+    _enable_submit_button(){
+        if(this.tiles.length > 0){
+            this.submit_button.style.backgroundColor = "rgb(2, 172, 132)"
+            this.submit_button.style.cursor = "pointer"
+        }
+    }
+
+    _disable_submit_button(){
+        if(this.tiles.length == 0){
+            this.submit_button.style.backgroundColor = "rgb(230,230,230)"
+            this.submit_button.style.cursor = "not-allowed"
         }
     }
 }
@@ -180,7 +202,7 @@ class Words{
         this.set(this._load())
 
         // Render any words that already exist
-        if(this.words != []){
+        if(this.words.length > 0){
             for(var i = 0; i < this.words.length; i++){
                 this._render(this.words[i], i)
             }
@@ -447,7 +469,13 @@ function select(i){
 
 function submit(){
     try{
-        gh.submit_word()
+        if(gh.is_gameover()){
+            show_toast("come back tomorrow for another griddle")
+        }else if(gh.selection.length() > 0){
+            gh.submit_word()   
+        } else {
+            show_toast("make a selection before submitting")
+        }
     } catch(err) {
         if(err instanceof NotInWordListError){
             show_toast(err.message)
