@@ -257,6 +257,10 @@ class WordHandler{
         this._check_gameover()
     }
 
+    is_gameover(){
+        return this.words.count() >= WORD_LIMIT
+    }
+
     // HELPERS
     _init_grid(){
         for(var i = 0; i < NUM_TILES; i++){
@@ -376,7 +380,7 @@ function select(i){
         if(err instanceof AdjacentSelectionError){
             show_toast(err.message)
         } else if(err instanceof GameOver){
-            show_stats_modal()
+            show_toast("come back tomorrow for another griddle")
         }
     }
 }
@@ -397,9 +401,8 @@ function reset(){
     wh.reset()
 }
 
-// MODALS
+// INFO MODAL
 function show_info_modal(){
-    hide_toast()
     document.getElementById("info_modal").style.display = "inline-block"
 }
 
@@ -407,8 +410,18 @@ function hide_info_modal(){
     document.getElementById("info_modal").style.display = "none"
 }
 
+// STATS MODAL
+var stats_gameover_container = document.getElementById("stats_gameover_container")
+var stats_gameover_clock_el = document.getElementById("stats_gameover_clock")
+var stats_gameover_clock = null
+
 function show_stats_modal(){
-    hide_toast()
+    if(wh.is_gameover() && !stats_gameover_clock){
+        update_next_griddle_clock()
+        stats_gameover_clock = setInterval(update_next_griddle_clock, 1000)
+        stats_gameover_container.style.display = "inline"
+    }
+
     document.getElementById("stats_modal__top_word").innerText = localStorage.top_word || "none"
     document.getElementById("stats_modal__top_word_score").innerText = localStorage.top_word_score || "0"
     
@@ -417,6 +430,30 @@ function show_stats_modal(){
 
 function hide_stats_modal(){
     document.getElementById("stats_modal").style.display = "none"
+}
+
+function update_next_griddle_clock(){
+    // Tick gameover clock
+    var time_now = new Date().getTime()
+    var distance = get_next_griddle_time() - time_now
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    stats_gameover_clock_el.innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+
+    if(distance <= 0){
+        show_toast("refresh the page for a new griddle!")
+        clearInterval(stats_gameover_clock)
+    }
+}
+
+function get_next_griddle_time(){
+    var time_tomorrow = new Date()
+    time_tomorrow.setHours(0)
+    time_tomorrow.setMinutes(0)
+    time_tomorrow.setSeconds(0)
+    time_tomorrow.setDate(time_tomorrow.getDate() + 1)
+    return time_tomorrow.getTime()
 }
 
 // TOASTS
