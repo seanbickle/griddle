@@ -11,3 +11,10 @@ class AdjacentSelectionError extends Error{
         this.name = "AdjacentSelectionError"
     }
 }
+
+class GameOver extends Error{
+    constructor(){
+        super("game over")
+        this.name = "GameOver"
+    }
+}

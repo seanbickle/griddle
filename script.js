@@ -224,6 +224,7 @@ class WordHandler{
     // INTERFACE
     select(index){
         // Toggles selection
+        this._check_gameover()
         var tile = this.grid[index]
         if(this.selection.includes(tile)) this._remove_selection(tile)
         else this._add_selection(tile)
@@ -252,6 +253,8 @@ class WordHandler{
             this._hide_selection_score()
             throw new NotInWordListError(word)
         }
+
+        this._check_gameover()
     }
 
     // HELPERS
@@ -275,6 +278,10 @@ class WordHandler{
         // Store the grid plus the remainder of the buffer
         // This will be read back into the grid in order when the game reloads
         localStorage.buffer = JSON.stringify(this.grid.concat(BUFFER))
+    }
+
+    _check_gameover(){
+        if(this.words.count() > WORD_LIMIT) throw new GameOver()
     }
 
     _add_selection(tile){
@@ -368,6 +375,8 @@ function select(i){
     } catch(err) {
         if(err instanceof AdjacentSelectionError){
             show_toast(err.message)
+        }else if(err instanceof GameOver){
+            show_stats_modal()
         }
     }
 }
