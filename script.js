@@ -394,7 +394,24 @@ class GriddleHandler{
     // STATS
     _save_game_stats(){
         this.score.check_for_high_score()
+        this._check_game_streak()
         this._increment_games_played()
+    }
+
+    _check_game_streak(){
+        var last_completed_griddle = localStorage.last_completed_griddle_id
+        // Increment streak if last completed griddle was yesterday
+        if(last_completed_griddle == LAST_GRIDDLE_ID){
+            var streak = parseInt(localStorage.griddle_streak)
+            if(streak) localStorage.griddle_streak = streak + 1
+            else localStorage.griddle_streak = 1
+
+            // Display toast on every 10th griddle streak
+            if(streak % 10 == 0) show_toast("griddle streak: " + streak)
+        } else{
+            var streak = 1
+            localStorage.game_streak = streak
+        }
     }
 
     _increment_games_played(){
