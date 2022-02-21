@@ -469,7 +469,9 @@ function select(i){
 
 function submit(){
     try{
-        if(gh.selection.length() > 0){
+        if(gh.is_gameover()){
+            show_toast("come back tomorrow for another griddle")
+        }else if(gh.selection.length() > 0){
             gh.submit_word()   
         } else {
             show_toast("make a selection before submitting")
