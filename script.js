@@ -180,8 +180,10 @@ class Words{
         this.set(this._load())
 
         // Render any words that already exist
-        for(var i = 0; i < this.words.length; i++){
-            this._render(this.words[i], i)
+        if(this.words != []){
+            for(var i = 0; i < this.words.length; i++){
+                this._render(this.words[i], i)
+            }
             this.word_container.style.display = "inline-block"
         }
     }
