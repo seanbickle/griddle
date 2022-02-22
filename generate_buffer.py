@@ -1,7 +1,12 @@
 '''
-Generates a 6x6 grid and 36x6 buffer, to ensure every player has the same each
-day
+Generates:
+
+* a 6x6 grid and 36x6 buffer, to ensure every player has the same each day
+* The current and last griddle ID. Tied to the buffer generation to ensure
+  the game only refreshes when there's a new buffer.
 '''
+import datetime
+
 from random import randint
 
 
@@ -53,5 +58,15 @@ def generate_buffer():
 
 
 if __name__ == "__main__":
+    buffer = generate_buffer()
+
+    today = datetime.datetime.utcnow().date()
+    current_griddle_id = today.isoformat()
+    last_griddle_id = (today - datetime.timedelta(days=1)).isoformat()
+
     with open("buffer.js", mode="w") as file:
-        file.write(f'BUFFER = {generate_buffer()}\n')
+        file.write(
+            f'BUFFER = {generate_buffer()}\n'
+            f'CURRENT_GRIDDLE_ID = "{current_griddle_id}"\n'
+            f'LAST_GRIDDLE_ID = "{last_griddle_id}"\n'
+        )
