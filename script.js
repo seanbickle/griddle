@@ -434,6 +434,7 @@ class GriddleHandler{
             var streak = 1
             localStorage.game_streak = streak
         }
+        localStorage.last_completed_griddle_id = CURRENT_GRIDDLE_ID
     }
 
     _increment_games_played(){
@@ -532,7 +533,7 @@ function show_stats_modal(){
     document.getElementById("stats_modal__top_word_score").innerText = localStorage.top_word_score || "0"
     document.getElementById("stats_modal__top_game_score").innerText = localStorage.top_game_score || "0"
     document.getElementById("stats_modal__games_played").innerText = localStorage.games_played || "0"
-    document.getElementById("stats_modal__game_streak").innerText = localStorage.game_streak || "0"
+    document.getElementById("stats_modal__game_streak").innerText = localStorage.griddle_streak || "0"
 
     document.getElementById("stats_modal").style.display = "inline-block"
 }
