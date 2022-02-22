@@ -490,9 +490,12 @@ function reset(){
 }
 
 function share_griddle(){
-    var share_text = `#griddle ${CURRENT_GRIDDLE_ID}:\n`
+    var share_text = `#griddle ${CURRENT_GRIDDLE_ID}:\n${gh.score.get()} points\n(`
     for(var i = 0; i < gh.words.count(); i++){
-        share_text += `\n(${gh.words.words[i][1]}) ${gh.words.words[i][0]}`
+        share_text += `${gh.words.words[i][1]}`
+        // Add commas/close bracket
+        if(i != gh.words.count() - 1) share_text += ", "
+        else share_text += ")"
     }
     var temp_share_field = document.createElement("textarea")
     temp_share_field.value = share_text
