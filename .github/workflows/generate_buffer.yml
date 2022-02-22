@@ -5,7 +5,10 @@ name: Buffer Generation
 # Triggered by cron every day at 00:00 UTC
 on:
   schedule:
-    - cron: "7 0 * * *"
+  - cron: '0 1 * * *'
+  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   generate_buffer:
