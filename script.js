@@ -545,15 +545,18 @@ function update_next_griddle_clock(){
     // Tick gameover clock
     var time_now = new Date().getTime()
     var distance = get_next_griddle_time() - time_now
+
+    if(distance <= 0){
+        // GitHub Actions take a bit of time to execute at peak time.
+        // For now, this will inform the user that a new griddle is coming.
+        show_toast("a new griddle will be available shortly!")
+        clearInterval(stats_gameover_clock)
+    }
+
     var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
     stats_gameover_clock_el.innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
-
-    if(distance <= 0){
-        show_toast("refresh the page for a new griddle!")
-        clearInterval(stats_gameover_clock)
-    }
 }
 
 function get_next_griddle_time(){
