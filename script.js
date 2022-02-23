@@ -422,16 +422,16 @@ class GriddleHandler{
 
     _check_game_streak(){
         var last_completed_griddle = localStorage.last_completed_griddle_id
+        var streak = 1
         // Increment streak if last completed griddle was yesterday
         if(last_completed_griddle == LAST_GRIDDLE_ID){
-            var streak = parseInt(localStorage.griddle_streak)
+            streak = parseInt(localStorage.griddle_streak)
             if(streak) localStorage.griddle_streak = streak + 1
             else localStorage.griddle_streak = 1
 
             // Display toast on every 10th griddle streak
             if(streak % 10 == 0) show_toast("griddle streak: " + streak)
-        } else{
-            var streak = 1
+        } else {
             localStorage.griddle_streak = streak
         }
         localStorage.last_completed_griddle_id = CURRENT_GRIDDLE_ID
