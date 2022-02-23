@@ -432,7 +432,7 @@ class GriddleHandler{
             if(streak % 10 == 0) show_toast("griddle streak: " + streak)
         } else{
             var streak = 1
-            localStorage.game_streak = streak
+            localStorage.griddle_streak = streak
         }
         localStorage.last_completed_griddle_id = CURRENT_GRIDDLE_ID
     }
