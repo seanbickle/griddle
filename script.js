@@ -323,10 +323,14 @@ class GriddleHandler{
     }
 
     _load_buffer(){
-        // Load the buffer back from local storage if it exists and the
-        // griddle isn't outdated
+        // If there's a new griddle, ensure the local buffer cache is overwritten
+        // with the new buffer. This prevents yesterday's griddle being reused.
+        // Otherwise, reload any cached buffer. The buffer is cached when a user
+        // submits a word, therefore modifying the day's default buffer.
         try {
-            if(localStorage.buffer && !GRIDDLE_OUTDATED) {
+            if(GRIDDLE_OUTDATED) {
+                this._save_buffer()
+            } else if(localStorage.buffer) {
                 BUFFER = JSON.parse(localStorage.buffer)
             }
         } catch(err) {
