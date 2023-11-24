@@ -289,7 +289,7 @@ class GriddleHandler{
     submit_word(){
         // Process user selection on submission
         var word = this.selection.word()
-        if(WORDLIST.includes(word)) {
+        if(WORDLIST[word]) {
             var score = this.selection_score * this.multiplier
 
             this.score.add(score)
